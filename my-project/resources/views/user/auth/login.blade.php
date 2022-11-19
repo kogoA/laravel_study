@@ -8,6 +8,9 @@
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
+        {{-- @php
+            dd($route);
+        @endphp --}}
 
         <form method="POST" action="{{ route('user.login') }}">
             @csrf

@@ -1,5 +1,6 @@
 <x-guest-layout>
     <x-auth-card>
+        管理者用
         <x-slot name="logo">
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-red-500" />
@@ -9,7 +10,7 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form method="POST" action="{{ route('user.login') }}">
+        <form method="POST" action="{{ route('admin.login') }}">
             @csrf
 
             <!-- Email Address -->
@@ -42,8 +43,8 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                @if (Route::has('user.password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('user.password.request') }}">
+                @if (Route::has('admin.password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('admin.password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif

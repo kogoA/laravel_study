@@ -6,7 +6,7 @@
             </a>
         </x-slot>
 
-        <form method="POST" action="{{ route('user.password.update') }}">
+        <form method="POST" action="{{ route('admin.password.update') }}">
             @csrf
 
             <!-- Password Reset Token -->

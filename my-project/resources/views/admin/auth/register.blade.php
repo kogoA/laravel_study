@@ -6,11 +6,12 @@
             </a>
         </x-slot>
 
-        <form method="POST" action="{{ route('users.register') }}">
+        <form method="POST" action="{{ route('admin.register') }}">
             @csrf
 
             <!-- Name -->
             <div>
+                Admin用
                 <x-input-label for="name" :value="__('Name')" />
 
                 <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
@@ -51,7 +52,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('user.login') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('admin.login') }}">
                     {{ __('Already registered?') }}
                 </a>
 
