@@ -3,7 +3,9 @@
         管理者用
         <x-slot name="logo">
             <a href="/">
+                <div class="w-8">
                 <x-application-logo class="w-20 h-20 fill-current text-red-500" />
+                </div>
             </a>
         </x-slot>
 
