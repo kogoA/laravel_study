@@ -33,10 +33,10 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin', 'verified'])->name('dashboard');
 
-Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
-Route::get('/component-test2', [ComponentTestController::class, 'showComponent2']);
-Route::get('/servicecontainertest', [LifeCycleTestController::class, 'showServiceLifeCycleTest']);
-Route::get('/serviceprovidertest', [LifeCycleTestController::class, 'showServiceProviderTest']);
+// Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
+// Route::get('/component-test2', [ComponentTestController::class, 'showComponent2']);
+// Route::get('/servicecontainertest', [LifeCycleTestController::class, 'showServiceLifeCycleTest']);
+// Route::get('/serviceprovidertest', [LifeCycleTestController::class, 'showServiceProviderTest']);
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
