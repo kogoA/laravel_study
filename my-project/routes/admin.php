@@ -29,14 +29,14 @@ Route::get('/', function () {
 Route::resource('owners', OwnersController::class)
 ->middleware('auth:admin');
 
+Route::prefix('expired-owners')->middleware('auth:admin')->group(function(){
+    Route::get('index', [OwnersController::class,'expiredOwnerIndex'])->name('expired-owners.index');
+    Route::post('destroy/{owner}',[OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
+});
+
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin', 'verified'])->name('dashboard');
-
-// Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
-// Route::get('/component-test2', [ComponentTestController::class, 'showComponent2']);
-// Route::get('/servicecontainertest', [LifeCycleTestController::class, 'showServiceLifeCycleTest']);
-// Route::get('/serviceprovidertest', [LifeCycleTestController::class, 'showServiceProviderTest']);
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
