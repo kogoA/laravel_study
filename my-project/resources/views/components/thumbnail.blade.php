@@ -1,6 +1,8 @@
 @php
 if($type === 'shops') {
     $path = 'storage/shops/';
+} elseif($type === 'products') {
+    $path = 'storage/products/';
 }
 @endphp
 <div>
