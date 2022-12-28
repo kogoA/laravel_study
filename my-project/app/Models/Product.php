@@ -24,6 +24,7 @@ class Product extends Model
         'image2',
         'image3',
         'image4',
+        'filename',
     ];
 
     public function shop()
