@@ -29,6 +29,12 @@ class ShopSeeder extends Seeder
             'filename' => '',
             'is_selling' => true,
             ],
+            ['owner_id' => 9,
+            'name' => '学大ショップ',
+            'infomation' => '徒歩8分',
+            'filename' => '',
+            'is_selling' => true,
+            ],
         ]);
     }
 }
