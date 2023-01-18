@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ProductRequest;
 
 
 class ProductController extends Controller
@@ -43,7 +44,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $ownerInfo = Owner::with('shop.product.image1')
+        $ownerInfo = Owner::with('shop.product.imageFirst')
         ->where('id',Auth::id())->get();
 
         return view('owner.products.index',compact('ownerInfo'));
@@ -72,24 +73,8 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:50'],
-            'infomation' => ['required', 'string', 'max:1000'],
-            'price' => ['required', 'integer'],
-            'sort_order' => ['required', 'integer'],
-            'quantity' => ['integer'],
-            'shop_id' => ['required', 'exists:shops,id'],
-            'category' => ['required', 'exists:secondary_categories,id'],
-            'image1' => ['nullable', 'exists:images,id'],
-            'image2' => ['nullable', 'exists:images,id'],
-            'image3' => ['nullable', 'exists:images,id'],
-            'image4' => ['nullable', 'exists:images,id'],
-            'image5' => ['nullable', 'exists:images,id'],
-            'is_selling' => 'required'
-        ]);
-
 
         try{
             DB::transaction(function() use($request) {
@@ -127,17 +112,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -145,19 +119,72 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('product_id' , $product->id)->sum('quantity');
+
+        $shops = Shop::where('owner_id', Auth::id())->select('id','name')->get();;
+
+        $images = Image::where('owner_id', Auth::id())->select('id','title','filename')->orderBy('updated_at', 'desc')->get();
+
+        $categories = PrimaryCategory::with('secondary')->get();
+
+        return view('owner.products.edit',compact('product','quantity','images','categories','shops'));
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $request->validate(([
+            'current_quantity' => 'required|integer',
+        ]));
+
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('product_id' , $product->id)->sum('quantity');
+
+        if($request->current_quantity !== $quantity) {
+            $id = $request->route()->parameter('product');
+            return redirect()->route('owner.products.edit', ['product' => $id])
+            ->with(['message' => '在庫が変更されています。再度確認ください', 'status' => 'alert']);
+        } else {
+            try{
+                DB::transaction(function() use($request, $product) {
+                        $product->name       = $request->name;
+                        $product->infomation = $request->infomation;
+                        $product->price      = $request->price;
+                        $product->sort_order = $request->sort_order;
+                        $product->shop_id  = $request->shop_id;
+                        $product->secondary_category_id = $request->category;
+                        $product->image1     = $request->image1;
+                        $product->image2     = $request->image2;
+                        $product->image3     = $request->image3;
+                        $product->image4     = $request->image4;
+                        $product->image5     = $request->image5;
+                        $product->is_selling = $request->is_selling;
+                        $product->save();
+    
+                        if($request->type === '1'){
+                            $newQuantity = $request->quantity;
+                        }
+                        if($request->type === '2'){
+                            $newQuantity = $request->quantity * -1;
+                        }
+                        Stock::create([
+                        'product_id' => $product->id,
+                        'type' => $request->type,
+                        'quantity' => $newQuantity,
+                    ]);
+                }, 2);
+            }catch(Throwable $e){
+                exit;
+                Log::error($e);
+                throw $e;
+            }
+    
+            return redirect()
+            ->route('owner.products.index')
+            ->with(['message' => '商品情報を更新しました。', 'status'=>'info']);
+        }
+
     }
 
     /**
