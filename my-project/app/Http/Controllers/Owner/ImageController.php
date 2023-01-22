@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
@@ -82,8 +83,22 @@ class ImageController extends Controller
      */
     public function edit($id)
     {
+        $imageInUse = false;
+        
         $image = Image::findOrFail($id);
-        return view('owner.images.edit', compact('image'));
+        $imageInProducts = Product::where('image1', $image->id)
+        ->orWhere('image2',$image->id)
+        ->orWhere('image3',$image->id)
+        ->orWhere('image4',$image->id)
+        ->orWhere('image5',$image->id)
+        ->count();
+
+        // 使用中の写真は削除ボタンを非表示フラグ
+        if($imageInProducts !== 0) {
+            $imageInUse = true;
+        }
+
+        return view('owner.images.edit', compact('image','imageInUse'));
     }
 
     /**
@@ -119,8 +134,10 @@ class ImageController extends Controller
         $filePath = 'public/products/' . $image->filename;
 
         if(Storage::exists($filePath)){
-            Image::findOrFail($id)->delete();
+            Storage::delete($filePath);
         }
+
+        Image::findOrFail($id)->delete(); 
         
         return redirect()
         ->route('owner.images.index')

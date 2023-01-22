@@ -37,6 +37,7 @@
                               </div>
                         </div>
                     </form>
+                    @if($imageInUse === false)
                     <form id="delete_{{$image->id}}" method="POST" action="{{ route('owner.images.destroy', ['image' => $image->id ])}}">
                         @csrf
                         @method('DELETE')
@@ -44,6 +45,7 @@
                             <a href="#" data-id="{{ $image->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded">削除する</button>
                         </td>
                       </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -52,5 +54,6 @@
         function deletePost(e) {
         'use strict';
         if (confirm('本当に削除してもいいですか?')) { document.getElementById('delete_' + e.dataset.id).submit(); }
-        } </script>
+        } 
+    </script>
 </x-app-layout>
