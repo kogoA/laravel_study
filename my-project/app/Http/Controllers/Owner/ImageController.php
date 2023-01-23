@@ -136,8 +136,6 @@ class ImageController extends Controller
         if(Storage::exists($filePath)){
             Storage::delete($filePath);
         }
-
-        Image::findOrFail($id)->delete(); 
         
         return redirect()
         ->route('owner.images.index')
