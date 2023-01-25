@@ -27,7 +27,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth:users')->group(function(){
     Route::get('/', [itemController::class, 'index'])->name('items.index');
-    // Route::get('edit/{shop}',[ShopController::class, 'edit'])->name('shops.edit');
+    Route::get('show/{item}',[ItemController::class, 'show'])->name('items.show');
     // Route::post('update/{shop}',[ShopController::class, 'update'])->name('shops.update');
 });
 
