@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:users');
-    }
+    // コメントアウトでリダイレクトがループする
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:users');
+    // }
 
     public function index()
     {
