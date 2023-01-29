@@ -19,10 +19,11 @@ class CartController extends Controller
 
         foreach($products as $product){
             $totalPrice += $product->price * $product->pivot->quantity;
-            echo $totalPrice." " ;
         }
 
-        return view('user.cart.index',compact('products', 'totalPrice'));
+
+
+        return view('user.cart',compact('products', 'totalPrice'));
     }
 
     public function add(Request $request)
@@ -40,6 +41,15 @@ class CartController extends Controller
                 'quantity' => $request->quantity
             ]);
         }
+
+        return redirect()->route('user.cart.index');
+    }
+
+    public function delete($id)
+    {
+        Cart::where('product_id', $id)
+        ->where('user_id', Auth::id())
+        ->delete();
 
         return redirect()->route('user.cart.index');
     }
