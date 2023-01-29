@@ -88,13 +88,11 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
-
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $checkout_session = \Stripe\Checkout\Session::create([
             # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-            'payment_method_type' => ['card'],
+            'payment_method_types' => ['card'],
             'line_items' => [$lineItems],
             'mode' => 'payment',
             'success_url' => route('user.items.index'),
