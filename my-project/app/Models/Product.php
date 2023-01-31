@@ -98,8 +98,25 @@ class Product extends Model
 
     public function scopeSelectCategory($query, $categoryId)
     {
-        if($categoryId !== '0') {
+        if($categoryId !== '0')  {
             return $query->where('secondary_category_id', $categoryId);
+        } else {
+            return;
+        }
+    }
+
+    public function scopeSearchKeyword($query,$keyword)
+    {
+        if(!is_null($keyword)) {
+
+            //全角スペースを半角にしてkeywordを取得
+            $keywords = preg_split('/[\s]+/', mb_convert_kana($keyword, 's'), -1,PREG_SPLIT_NO_EMPTY);
+
+            foreach($keywords as $word)
+            {
+                $query->where('products.name','like','%'.$word.'%');
+            }
+            return $query;
         } else {
             return;
         }

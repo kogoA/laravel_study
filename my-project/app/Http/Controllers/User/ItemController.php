@@ -32,7 +32,11 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::availableItems()->selectCategory($request->category ?? '')->sortOrder($request->sort)->paginate($request->pagination ?? '20');
+        $products = Product::availableItems()
+            ->selectCategory($request->category ?? '0')
+            ->searchKeyword($request->keyword)
+            ->sortOrder($request->sort)
+            ->paginate($request->pagination ?? '20');
         $categories = PrimaryCategory::with('secondary')->get();
 
         return view('user.index', compact('products', 'categories'));
