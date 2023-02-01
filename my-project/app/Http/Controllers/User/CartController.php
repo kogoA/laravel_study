@@ -8,6 +8,8 @@ use App\Models\Cart;
 use App\Models\User;
 use App\Models\Stock;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
+use App\Jobs\SendThanksMail;
 
 class CartController extends Controller
 {
@@ -57,7 +59,6 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $user = User::findOrFail(Auth::id());
         $products = $user->products;
 
         $lineItems = [];
@@ -106,6 +107,13 @@ class CartController extends Controller
 
     public function success()
     {
+        //**  購入者へお礼メールの送信 **
+        $cartItems     = Cart::where('user_id', Auth::id())->get();
+        $cartProducts  = CartService::getItemsInCart($cartItems);
+        $user          = User::findOrFail(Auth::id());
+        SendThanksMail::dispatch($cartProducts, $user);
+        //
+        
         Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->route('user.items.index');

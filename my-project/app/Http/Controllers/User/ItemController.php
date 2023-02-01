@@ -40,7 +40,7 @@ class ItemController extends Controller
             ->paginate($request->pagination ?? '20');
         $categories = PrimaryCategory::with('secondary')->get();
 
-        SendThanksMail::dispatch();
+        // SendThanksMail::dispatch();
 
         return view('user.index', compact('products', 'categories'));
     }
