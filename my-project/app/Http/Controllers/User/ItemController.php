@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use App\Models\PrimaryCategory;
-use App\Mail\TestMail;
+use App\Jobs\SendThanksMail;
 
 class ItemController extends Controller
 {
@@ -41,7 +40,7 @@ class ItemController extends Controller
             ->paginate($request->pagination ?? '20');
         $categories = PrimaryCategory::with('secondary')->get();
 
-        Mail::to('test@example.com')->send(new TestMail());
+        SendThanksMail::dispatch();
 
         return view('user.index', compact('products', 'categories'));
     }
