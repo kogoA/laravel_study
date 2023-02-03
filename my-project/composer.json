@@ -13,6 +13,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
+        "sendgrid/sendgrid": "^8.0",
         "stripe/stripe-php": "^10.4",
         "tightenco/ziggy": "^1.0"
     },

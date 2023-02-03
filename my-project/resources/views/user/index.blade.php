@@ -42,7 +42,6 @@
                                 <option value="100" @if(\Request::get('pagination') === '100') selected @endif>100件</option>
                             </select>
                         </div>
-                    </div>
                 </div>
             </form>
     </x-slot>
@@ -63,8 +62,7 @@
                                                 <h2 class="text-gray-900 title-font text-lg font-medium">{{ $product->name }}</h2>
                                                 <p class="mt-1">{{ number_format($product->price) }}<span class="text-sm text-gray-700">円(税込)</span></p>
                                             </div>
-                                      </div>
-
+                                    </div>
                                 </div>
                             </a>
                         </div>
