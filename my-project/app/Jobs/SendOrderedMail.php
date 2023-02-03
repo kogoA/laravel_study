@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderedMail;
+use Illuminate\Support\Facades\Log;
 
 
 class SendOrderedMail implements ShouldQueue

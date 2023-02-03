@@ -5,6 +5,7 @@ use App\Http\Controllers\ComponentTestController;
 use App\Http\Controllers\LifeCycleTestController;
 use App\Http\Controllers\User\ItemController;
 use App\Http\Controllers\User\CartController;
+use Inertia\Inertia;
 
 
 /*
@@ -21,6 +22,9 @@ use App\Http\Controllers\User\CartController;
 // Route::get('/', function () {
 //     return view('user.welcome');
 // });
+Route::get('/test', function () {
+    return Inertia::render('hello-world');
+});
 
 Route::get('/dashboard', function () {
     return view('user.dashboard');
