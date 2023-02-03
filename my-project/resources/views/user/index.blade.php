@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-2">
                 {{ __('商品一覧') }}
             </h2>
             <form method="get" action="{{ route('user.items.index')}}">
@@ -18,13 +18,13 @@
                             @endforeach
                         </select>
                         <div class="flex space-x-2 items-center">
-                            <div><input name="keyword" class="border border-gray-500 py-2" placeholder="キーワードを入力"></div>
+                            <div><input name="keyword" class="border border-gray-500 py-2" placeholder=" キーワードを入力"></div>
                             <div><button class="ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">検索する</button></div>
                         </div>
                     </div>
-                    <div class="flex">
+                    <div class="lg:flex items-center">
                         <div>
-                            <span class="text-sm">表示順</span>
+                            <span class="text-sm p-2">表示順</span>
                             <select id="sort" name="sort" class="mr-4">
                                 <option value="{{ \Constant::SORT_ORDER['recommend']}}" @if(\Request::get('sort') === \Constant::SORT_ORDER['recommend']) selected @endif>おすすめ</option>
                                 <option value="{{ \Constant::SORT_ORDER['higherPrice']}}" @if(\Request::get('sort') === \Constant::SORT_ORDER['higherPrice']) selected @endif>金額の高い順</option>
@@ -34,14 +34,14 @@
                             </select>
                         </div>
                     </div>
-                        <div>
-                            <span class="text-sm">表示件数</span><br>
-                            <select id="pagination" name="pagination">
-                                <option value="20" @if(\Request::get('pagination') === '20') selected @endif>20件</option>
-                                <option value="50" @if(\Request::get('pagination') === '50') selected @endif>50件</option>
-                                <option value="100" @if(\Request::get('pagination') === '100') selected @endif>100件</option>
-                            </select>
-                        </div>
+                    <div class="lg:flex items-center">
+                        <span class="text-sm p-2">表示件数</span><br>
+                        <select id="pagination" name="pagination">
+                            <option value="20" @if(\Request::get('pagination') === '20') selected @endif>20件</option>
+                            <option value="50" @if(\Request::get('pagination') === '50') selected @endif>50件</option>
+                            <option value="100" @if(\Request::get('pagination') === '100') selected @endif>100件</option>
+                        </select>
+                    </div>
                 </div>
             </form>
     </x-slot>
