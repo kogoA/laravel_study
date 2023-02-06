@@ -23,10 +23,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
 
-      - name: action-zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r github_to_s3.zip . -i /home/runner/work/laravel_study/laravel_study
+      # - name: action-zip
+      #   uses: montudor/action-zip@v1
+      #   with:
+      #     args: zip -r github_to_s3.zip . -i /home/runner/work/laravel_study/laravel_study
 
       - name: check zip
         run : ls -la
@@ -35,6 +35,6 @@ jobs:
         run : |
           aws s3 sync /home/runner/work/laravel_study/laravel_study s3://laravel-ec-bucket
 
-      - name: Upload to s3 by cp
-        run : |
-          aws s3 cp --recursive --region ap-northeast-1 github_to_s3.zip s3://laravel-ec-bucket
+      # - name: Upload to s3 by cp
+      #   run : |
+      #     aws s3 cp --recursive --region ap-northeast-1 github_to_s3.zip s3://laravel-ec-bucket
