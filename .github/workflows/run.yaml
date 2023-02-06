@@ -33,4 +33,4 @@ jobs:
 
       - name: Upload to s3
         run : |
-          aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
+          aws s3 sync github_to_s3.zip s3://laravel-ec-bucket
