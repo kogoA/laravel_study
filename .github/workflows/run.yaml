@@ -24,6 +24,7 @@ jobs:
           aws-region: ap-northeast-1
       
       - name: Upload to s3
+        shell: bash
         run : |
           zip -r github_to_s3.zip /home/runner/work/laravel_study/laravel_study
           aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
