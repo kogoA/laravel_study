@@ -28,6 +28,9 @@ jobs:
         with:
           args: zip -qq -r github_to_s3.zip . -i /home/runner/work/laravel_study/laravel_study
 
+      - name: check zip
+        run : ls -la
+
       - name: Upload to s3
         run : |
           aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
