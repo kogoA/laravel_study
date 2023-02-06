@@ -24,7 +24,7 @@ jobs:
           aws-region: ap-northeast-1
       
       - name: Upload to s3
-        run : pwd
+        run : ls -la
         # run : |
         #   sh .github/workflows/upload_to_s3.sh -p
       # ./.github/scripts/build.sh
