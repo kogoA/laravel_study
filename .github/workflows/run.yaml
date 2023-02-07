@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
       #   with:
       #     submodules: true
       #     token: ${{ secrets.TOKEN }}
@@ -26,7 +26,7 @@ jobs:
       - name: action-zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -r github_to_s3.zip -i /home/runner/work/laravel_study/laravel_study
+          args: zip -r github_to_s3.zip /home/runner/work/laravel_study/laravel_study
 
       - name: check zip
         run : ls -la
