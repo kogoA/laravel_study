@@ -26,14 +26,14 @@ jobs:
       - name: action-zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -r github_to_s3.zip . -i /home/runner/work/laravel_study/laravel_study
+          args: zip -r github_to_s3.zip . -i /home/runner/work/laravel_study/laravel_study/my-project
 
       - name: check zip
         run : ls -la && pwd
 
       - name: Upload to s3
         run : |
-          aws s3 sync /home/runner/work/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
+          aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
 
     # - name: Upload to s3 by cp
     #   run : |
