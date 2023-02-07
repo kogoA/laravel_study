@@ -5,36 +5,49 @@ on:
     branches:
       - main
 
-jobs:
-  build-prod:
-    runs-on: ubuntu-latest
+# jobs:
+#   build-prod:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2-node16
-      #   with:
-      #     submodules: true
-      #     token: ${{ secrets.TOKEN }}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       #   with:
+#       #     submodules: true
+#       #     token: ${{ secrets.TOKEN }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1-node16
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ap-northeast-1
 
-      - name: action-zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -r github_to_s3.zip laravel_study
+#       - name: action-zip
+#         uses: montudor/action-zip@v1
+#         with:
+#           args: zip -r github_to_s3.zip /home/runner/work/laravel_study/laravel_study
 
-      - name: check zip
-        run : ls -la
+#       - name: check zip
+#         run : ls -la
 
-      - name: Upload to s3
-        run : |
-          aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
+#       - name: Upload to s3
+#         run : |
+#           aws s3 sync /home/runner/work/laravel_study/laravel_study/github_to_s3.zip s3://laravel-ec-bucket
 
       # - name: Upload to s3 by cp
       #   run : |
       #     aws s3 cp --recursive --region ap-northeast-1 github_to_s3.zip s3://laravel-ec-bucket
+
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: laravel-ec-bucket
+          source_dir: 'laravel_study'
